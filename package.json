@@ -1,0 +1,24 @@
+{
+	"dependencies": {
+		"@mikro-orm/core": "^6.5.6",
+		"@mikro-orm/nestjs": "^6.1.1",
+		"@mikro-orm/postgresql": "^6.5.6",
+		"@mikro-orm/reflection": "^6.5.6",
+		"@nestjs/common": "^11.1.6",
+		"@nestjs/config": "^4.0.2",
+		"@nestjs/core": "^11.1.6",
+		"@nestjs/swagger": "^11.2.0",
+		"@nestjs/terminus": "^11.0.0",
+		"class-transformer": "^0.5.1",
+		"class-validator": "^0.14.2",
+		"ioredis": "^5.8.0",
+		"pg": "^8.16.3",
+		"swagger-ui-express": "^5.0.1"
+	},
+	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "^8.44.1",
+		"@typescript-eslint/parser": "^8.44.1",
+		"eslint": "^9.36.0",
+		"typescript": "^5.9.2"
+	}
+}
