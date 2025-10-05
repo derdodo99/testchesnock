@@ -1,4 +1,4 @@
-import { Migration } from '@mikro-orm/migrations';
+import { Migration } from "@mikro-orm/migrations";
 
 export class Migration20250928T132500 extends Migration {
   async up(): Promise<void> {
@@ -24,8 +24,12 @@ export class Migration20250928T132500 extends Migration {
       where "correlation_id" is not null;
     `);
 
-    this.addSql(`create index if not exists "transactions_wallet_id_idx" on "transactions" ("wallet_id");`);
-    this.addSql(`create index if not exists "transactions_created_at_idx" on "transactions" ("created_at");`);
+    this.addSql(
+      `create index if not exists "transactions_wallet_id_idx" on "transactions" ("wallet_id");`,
+    );
+    this.addSql(
+      `create index if not exists "transactions_created_at_idx" on "transactions" ("created_at");`,
+    );
   }
 
   async down(): Promise<void> {

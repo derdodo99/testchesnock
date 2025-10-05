@@ -1,3 +1,14 @@
+# root .gitignore
+# Backend
+/lootjoy-backend/node_modules/
+/lootjoy-backend/dist/
+/lootjoy-backend/coverage/
+
+# Frontend
+/webapp/node_modules/
+/webapp/dist/
+/webapp/build/
+
 # Logs
 logs
 *.log
