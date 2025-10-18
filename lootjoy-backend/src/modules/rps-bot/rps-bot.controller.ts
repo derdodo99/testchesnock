@@ -7,18 +7,18 @@ export class RpsBotController {
   constructor(private readonly service: RpsBotService) {}
 
   @Post('start')
-  start(@AuthUser('id') userId: number) {
+  start(@AuthUser('id') userId: string) {
     return this.service.start(userId);
   }
 
   @Post('commit')
-  commit(@AuthUser('id') userId: number, @Body() body: { gameId: string; commitHash: string }) {
+  commit(@AuthUser('id') userId: string, @Body() body: { gameId: string; commitHash: string }) {
     return this.service.commit(userId, body.gameId, body.commitHash);
   }
 
   @Post('reveal')
   reveal(
-    @AuthUser('id') userId: number,
+    @AuthUser('id') userId: string,
     @Body()
     body: {
       gameId: string;

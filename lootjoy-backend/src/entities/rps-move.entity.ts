@@ -6,7 +6,7 @@ import type { RpsSymbol } from '@root/common/types';
 @Entity({ tableName: 'rps_moves' })
 export class RpsMoveEntity {
   @PrimaryKey()
-  id!: string; // uuid
+  id: string = crypto.randomUUID();
 
   @ManyToOne(() => RpsGameEntity)
   game!: RpsGameEntity;

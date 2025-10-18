@@ -3,7 +3,7 @@ export class QueueDto {
 } // POST /rps/queue
 export class CreatePrivateDto {
   bet!: number;
-  opponentId!: number;
+  opponentId!: string;
 } // POST /rps/duel
 export class CommitDto {
   gameId!: string;

@@ -7,12 +7,12 @@ export class WalletsController {
   constructor(private readonly wallets: WalletsService) {}
 
   @Get(':userId/balance')
-  balance(@Param('userId', ParseIntPipe) userId: number) {
+  balance(@Param('userId', ParseIntPipe) userId: string) {
     return this.wallets.balanceByUserId(userId);
   }
 
   @Post(':userId/credit')
-  credit(@Param('userId', ParseIntPipe) userId: number, @Body() dto: AmountDto) {
+  credit(@Param('userId', ParseIntPipe) userId: string, @Body() dto: AmountDto) {
     return this.wallets.credit({
       userId,
       amount: dto.amount,
@@ -23,7 +23,7 @@ export class WalletsController {
   }
 
   @Post(':userId/debit')
-  debit(@Param('userId', ParseIntPipe) userId: number, @Body() dto: AmountDto) {
+  debit(@Param('userId', ParseIntPipe) userId: string, @Body() dto: AmountDto) {
     return this.wallets.debit({
       userId,
       amount: dto.amount,

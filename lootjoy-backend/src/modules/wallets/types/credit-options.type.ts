@@ -1,7 +1,7 @@
 import { AmountType } from '@src/modules/wallets/constants/amount-type.enum';
 
 export interface CreditOptions {
-  userId: number;
+  userId: string;
   amount: number;
   reason?: string;
   correlationId?: string;

@@ -4,7 +4,7 @@ import { UserEntity } from '@src/entities/user.entity';
 @Entity({ tableName: 'wallets' })
 export class WalletEntity {
   @PrimaryKey()
-  id!: number;
+  id: string = crypto.randomUUID();
 
   @OneToOne(() => UserEntity, { unique: true })
   user!: UserEntity;

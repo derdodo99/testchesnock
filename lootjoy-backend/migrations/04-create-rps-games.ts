@@ -4,14 +4,14 @@ export class Migration20251004CreateRpsTables extends Migration {
   async up(): Promise<void> {
     this.addSql(`
       CREATE TABLE IF NOT EXISTS "rps_games" (
-        "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+        "id" uuid primary key default gen_random_uuid(),
         "bet" int NOT NULL CHECK ("bet" > 0),
         "status" varchar(16) NOT NULL DEFAULT 'waiting'
           CHECK ("status" IN ('waiting','playing','finished','canceled','expired')),
 
-        "creator_id" int NOT NULL,
-        "opponent_id" int NULL,
-        "winner_id" int NULL,
+        "creator_id" uuid not null,
+        "opponent_id" uuid null,
+        "winner_id" uuid null,
 
         "created_at" timestamptz NOT NULL DEFAULT now(),
         "started_at" timestamptz NULL,
@@ -39,7 +39,7 @@ export class Migration20251004CreateRpsTables extends Migration {
       CREATE TABLE IF NOT EXISTS "rps_moves" (
         "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
         "game_id" uuid NOT NULL,
-        "user_id" int NOT NULL,
+        "user_id" uuid NOT NULL,
 
         "commit_hash" varchar(128) NOT NULL,
         "symbol" varchar(16) NULL

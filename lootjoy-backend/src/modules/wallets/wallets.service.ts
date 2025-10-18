@@ -30,6 +30,7 @@ export class WalletsService {
       return wallet;
     });
   }
+
   async getOrCreateWallet(user: UserEntity): Promise<WalletEntity> {
     let wallet = await this.walletRepository.findByUser(user);
     if (!wallet) {
@@ -39,7 +40,7 @@ export class WalletsService {
     return wallet;
   }
 
-  async balanceByUserId(userId: number) {
+  async balanceByUserId(userId: string) {
     return this.em.transactional(async () => {
       const user = await this.usersService.findById(userId);
       if (!user) throw new NotFoundException('user not found');

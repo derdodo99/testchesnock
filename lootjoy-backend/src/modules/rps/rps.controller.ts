@@ -8,22 +8,22 @@ export class RpsController {
   constructor(private readonly service: RpsService) {}
 
   @Post('queue')
-  join(@AuthUser('id') userId: number, @Body() dto: QueueDto) {
+  join(@AuthUser('id') userId: string, @Body() dto: QueueDto) {
     return this.service.joinQueue(userId, dto.bet);
   }
 
   @Post('duel')
-  createPrivate(@AuthUser('id') userId: number, @Body() dto: CreatePrivateDto) {
+  createPrivate(@AuthUser('id') userId: string, @Body() dto: CreatePrivateDto) {
     return this.service.createPrivate(userId, dto.opponentId, dto.bet);
   }
 
   @Post('commit')
-  commit(@AuthUser('id') userId: number, @Body() dto: CommitDto) {
+  commit(@AuthUser('id') userId: string, @Body() dto: CommitDto) {
     return this.service.commit(userId, dto.gameId, dto.commitHash);
   }
 
   @Post('reveal')
-  reveal(@AuthUser('id') userId: number, @Body() dto: RevealDto) {
+  reveal(@AuthUser('id') userId: string, @Body() dto: RevealDto) {
     return this.service.reveal(userId, dto.gameId, dto.symbol, dto.nonce);
   }
 

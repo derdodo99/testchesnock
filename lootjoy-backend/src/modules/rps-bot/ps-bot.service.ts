@@ -20,7 +20,7 @@ export class RpsBotService {
   ) {}
 
   // создать бесплатную игру с ботом
-  async start(userId: number = 1) {
+  async start(userId: string = '1') {
     return this.em.transactional(async (em) => {
       const gameId = crypto.randomUUID();
 
@@ -63,7 +63,7 @@ export class RpsBotService {
     });
   }
 
-  async commit(userId: number, gameId: string, commitHash: string) {
+  async commit(userId: string, gameId: string, commitHash: string) {
     const game = await this.em.findOneOrFail(RpsBotGameEntity, { id: gameId });
 
     // idempotency: один ход на пользователя
@@ -90,7 +90,7 @@ export class RpsBotService {
   }
 
   // reveal игрока
-  async reveal(userId: number, gameId: string, symbol: RpsSymbol, nonce: string) {
+  async reveal(userId: string, gameId: string, symbol: RpsSymbol, nonce: string) {
     const game = await this.em.findOneOrFail(
       RpsBotGameEntity,
       { id: gameId },

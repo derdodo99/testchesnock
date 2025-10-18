@@ -5,3 +5,7 @@ export enum RpsGameStatus {
   CANCELED = 'canceled',
   EXPIRED = 'expired',
 }
+export enum PrizeType {
+  CRYSTALS = 'CRYSTALS',
+  ITEM = 'ITEM',
+}

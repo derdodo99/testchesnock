@@ -6,7 +6,7 @@ import { RpsGameStatus } from '@root/common/enums'; // у тебя уже ест
 @Entity({ tableName: 'rps_games' })
 export class RpsGameEntity {
   @PrimaryKey()
-  id!: string; // uuid
+  id: string = crypto.randomUUID();
 
   @Property()
   bet!: number; // в кристаллах
@@ -18,7 +18,7 @@ export class RpsGameEntity {
   creator!: UserEntity;
 
   @ManyToOne(() => UserEntity, { nullable: true })
-  opponent: UserEntity | null = null;
+  opponent: UserEntity;
 
   @Property()
   createdAt: Date = new Date();

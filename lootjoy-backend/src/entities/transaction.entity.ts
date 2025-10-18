@@ -5,7 +5,7 @@ import { AMOUNT_TYPES, AmountType } from '@src/modules/wallets/constants/amount-
 @Entity({ tableName: 'transactions' })
 export class TransactionEntity {
   @PrimaryKey()
-  id!: number;
+  id: string = crypto.randomUUID();
 
   @ManyToOne(() => WalletEntity)
   @Index({ name: 'transactions_wallet_id_idx' })

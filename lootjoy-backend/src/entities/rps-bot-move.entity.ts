@@ -5,7 +5,7 @@ import { RpsBotGameEntity } from '@src/entities/rps-bot-game.entity';
 
 @Entity({ tableName: 'rps_bot_moves' })
 export class RpsBotMoveEntity {
-  @PrimaryKey() id!: string;
+  @PrimaryKey() id: string = crypto.randomUUID();
 
   @Property() commitHash!: string;
   @Property({ nullable: true }) symbol?: RpsSymbol;

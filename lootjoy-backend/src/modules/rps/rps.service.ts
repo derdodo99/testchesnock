@@ -18,16 +18,16 @@ export class RpsService {
     private readonly wallets: WalletsService,
   ) {}
 
-  async joinQueue(userId: number, bet: number) {
+  async joinQueue(userId: string, bet: number) {
     const key = `rps:queue:${bet}`;
     const opponentIdStr = await this.redis.lpop(key);
 
-    if (!opponentIdStr || +opponentIdStr === userId) {
+    if (!opponentIdStr || opponentIdStr === userId) {
       await this.redis.rpush(key, String(userId));
       return { queued: true };
     }
 
-    const opponentId = +opponentIdStr;
+    const opponentId = opponentIdStr;
 
     return this.em.transactional(async (em) => {
       const gameId = crypto.randomUUID();
@@ -64,7 +64,7 @@ export class RpsService {
       return { queued: false, gameId: game.id };
     });
   }
-  async createPrivate(userId: number, opponentId: number, bet: number) {
+  async createPrivate(userId: string, opponentId: string, bet: number) {
     return this.em.transactional(async (em) => {
       const gameId = crypto.randomUUID();
 
@@ -101,7 +101,7 @@ export class RpsService {
     });
   }
 
-  async commit(userId: number, gameId: string, commitHash: string) {
+  async commit(userId: string, gameId: string, commitHash: string) {
     const game = await this.em.findOneOrFail(RpsGameEntity, { id: gameId });
     const userRef = this.em.getReference(UserEntity, userId);
 
@@ -125,7 +125,7 @@ export class RpsService {
     return { ok: true };
   }
 
-  async reveal(userId: number, gameId: string, symbol: RpsSymbol, nonce: string) {
+  async reveal(userId: string, gameId: string, symbol: RpsSymbol, nonce: string) {
     const game = await this.em.findOneOrFail(
       RpsGameEntity,
       { id: gameId },

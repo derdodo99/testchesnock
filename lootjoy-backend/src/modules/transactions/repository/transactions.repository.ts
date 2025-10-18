@@ -9,7 +9,7 @@ import { CreateOptions } from '@src/modules/transactions/types/create-options.ty
 export class TransactionsRepository {
   constructor(private readonly em: EntityManager) {}
 
-  async findById(id: number): Promise<TransactionEntity | null> {
+  async findById(id: string): Promise<TransactionEntity | null> {
     return this.em.findOne(TransactionEntity, { id });
   }
 

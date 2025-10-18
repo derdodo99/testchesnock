@@ -5,8 +5,8 @@ export class Migration20250928T132500 extends Migration {
     // Таблица транзакций кошельков
     this.addSql(`
       create table if not exists "transactions" (
-        "id" serial primary key,
-        "wallet_id" int not null,
+        "id" uuid primary key default gen_random_uuid(),
+        "wallet_id" uuid not null,
         "amount" int not null,    
         "type" varchar(20) not null,  
         "reason" varchar(64) null,                    -- короткая причина/метка

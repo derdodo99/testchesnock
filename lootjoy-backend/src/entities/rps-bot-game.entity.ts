@@ -5,7 +5,7 @@ import { RpsBotMoveEntity } from '@src/entities/rps-bot-move.entity';
 
 @Entity({ tableName: 'rps_bot_games' })
 export class RpsBotGameEntity {
-  @PrimaryKey() id!: string; // uuid
+  @PrimaryKey() id: string = crypto.randomUUID();
 
   @Property({ default: 0 }) bet: number = 0;
   @Property({ default: RpsGameStatus.WAITING }) status: RpsGameStatus = RpsGameStatus.WAITING;

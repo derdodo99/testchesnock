@@ -17,8 +17,8 @@ export class Migration20251005CreateRpsBotTables extends Migration {
         "started_at" timestamptz NULL,
         "finished_at" timestamptz NULL,
 
-        "player_id" int NOT NULL,
-        "winner_id" int NULL
+        "player_id" uuid NOT NULL,
+        "winner_id" uuid NULL
       );
     `);
 
@@ -55,7 +55,7 @@ export class Migration20251005CreateRpsBotTables extends Migration {
         "revealed_at" timestamptz NULL,
 
         "game_id" uuid NOT NULL,
-        "user_id" int NOT NULL
+        "user_id" uuid NOT NULL
       );
     `);
 

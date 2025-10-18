@@ -5,19 +5,21 @@ import { UsersRepository } from '@src/modules/users/repository/users.repository'
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly usersRepo: UsersRepository) {}
+  constructor(private readonly usersRepository: UsersRepository) {}
 
   async findByTelegramId(telegramId: string): Promise<UserEntity | null> {
-    return this.usersRepo.findByTelegramId(telegramId);
+    return this.usersRepository.findByTelegramId(telegramId);
   }
-  async findById(id: number): Promise<UserEntity | null> {
-    return this.usersRepo.findById(id);
+
+  async findById(id: string): Promise<UserEntity | null> {
+    return this.usersRepository.findById(id);
   }
-  async findOrCreateByTelegramId(tgUserId: number | string): Promise<UserEntity> {
+
+  async findOrCreateByTelegramId(tgUserId: string): Promise<UserEntity> {
     const telegramId = String(tgUserId);
-    const existing = await this.usersRepo.findByTelegramId(telegramId);
+    const existing = await this.usersRepository.findByTelegramId(telegramId);
     if (existing) return existing;
 
-    return this.usersRepo.create({ telegramId, country: CountryType.RU });
+    return this.usersRepository.createUser({ telegramId, country: CountryType.RU });
   }
 }

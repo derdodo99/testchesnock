@@ -1,19 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import { EntityManager } from '@mikro-orm/postgresql';
+import { EntityRepository } from '@mikro-orm/postgresql';
 import { UserEntity } from '@src/entities/user.entity';
 import { CreateUserDto } from '@src/modules/users/dto/create-user.dto';
 
 @Injectable()
-export class UsersRepository {
-  constructor(private readonly em: EntityManager) {}
+export class UsersRepository extends EntityRepository<UserEntity> {
+  async findByTelegramId(telegramId: CreateUserDto['telegramId']): Promise<UserEntity | null> {
+    return this.findOne({ telegramId });
+  }
 
-  findByTelegramId(telegramId: CreateUserDto['telegramId']): Promise<UserEntity | null> {
-    return this.em.findOne(UserEntity, { telegramId });
+  async findById(id: string): Promise<UserEntity | null> {
+    return this.findOne({ id });
   }
-  findById(id: number): Promise<UserEntity | null> {
-    return this.em.findOne(UserEntity, { id });
-  }
-  async create(data: CreateUserDto) {
-    return this.em.create(UserEntity, data);
+
+  async createUser(data: CreateUserDto) {
+    const user = this.create(data);
+    await this.em.persistAndFlush(user);
+    return user;
   }
 }

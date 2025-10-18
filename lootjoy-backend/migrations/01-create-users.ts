@@ -2,9 +2,10 @@ import { Migration } from '@mikro-orm/migrations';
 
 export class Migration01Users extends Migration {
   async up(): Promise<void> {
+    this.addSql(`create extension if not exists pgcrypto;`);
     this.addSql(`
       create table if not exists "users" (
-        "id" serial primary key,
+        "id" uuid primary key default gen_random_uuid(),
         "telegram_id" varchar(64) not null unique,
         "username" varchar(64) null,
         "country" varchar(10) not null default 'RU',
@@ -16,8 +17,8 @@ export class Migration01Users extends Migration {
     // wallets
     this.addSql(`
       create table if not exists "wallets" (
-        "id" serial primary key,
-        "user_id" int not null unique,
+        "id" uuid primary key default gen_random_uuid(),
+        "user_id" uuid not null unique,
         "balance_crystals" int not null default 0,
         "created_at" timestamptz not null default now(),
         "updated_at" timestamptz null,

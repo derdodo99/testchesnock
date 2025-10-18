@@ -4,7 +4,7 @@ import { CountryType } from '@src/modules/users/types';
 @Entity({ tableName: 'users' })
 export class UserEntity {
   @PrimaryKey()
-  id!: number;
+  id: string = crypto.randomUUID();
 
   @Property({ unique: true })
   telegramId!: string;

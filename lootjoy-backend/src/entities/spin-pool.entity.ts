@@ -1,15 +1,13 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Collection, Entity, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
+import { SpinItemEntity } from '@src/entities/spin-item.entity';
 
 @Entity({ tableName: 'spin_pools' })
-export class SpinPool {
-  @PrimaryKey() id!: number;
-  @Property() price!: number;
-  @Property({ type: '  jsonb' }) config!: Array<{
-    label: string;
-    type: 'crystals' | 'item';
-    value?: number; // для crystals
-    itemId?: string; // для item
-    chance: number; // проценты
-  }>;
-  @Property() createdAt: Date = new Date();
+export class SpinPoolEntity {
+  @PrimaryKey() id: string = crypto.randomUUID();
+  @Property() name!: string; // "25 Crystals Pool"
+  @Property() cost!: number; // цена спина
+  @Property({ default: true }) isActive!: boolean;
+  @OneToMany(() => SpinItemEntity, (i) => i.pool)
+  items = new Collection<SpinItemEntity>(this);
+  @Property() createdAt = new Date();
 }
