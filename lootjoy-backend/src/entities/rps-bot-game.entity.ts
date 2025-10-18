@@ -1,8 +1,7 @@
 import { Entity, PrimaryKey, Property, ManyToOne, OneToMany, Collection } from '@mikro-orm/core';
-
-import { RpsBotMoveEntity } from './rps-bot-move.entity';
-import { RpsGameStatus } from '../../common/enums';
 import { UserEntity } from '@src/entities/user.entity';
+import { RpsGameStatus } from '@root/common/enums';
+import { RpsBotMoveEntity } from '@src/entities/rps-bot-move.entity';
 
 @Entity({ tableName: 'rps_bot_games' })
 export class RpsBotGameEntity {

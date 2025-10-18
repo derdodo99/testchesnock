@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { TransactionsRepository } from './repository/transactions.repository.js';
-import { AmountType } from '../wallets/constants/amount-type.enum.js';
-import { TxCreateResult } from './types/tx-create-result.type.js';
-import { PG_UNIQUE_VIOLATION } from './constants/index.js';
 import { WalletEntity } from '@src/entities/wallet.entity';
+import { TransactionsRepository } from '@src/modules/transactions/repository/transactions.repository';
+import { AmountType } from '@src/modules/wallets/constants/amount-type.enum';
+import { TxCreateResult } from '@src/modules/transactions/types/tx-create-result.type';
+import { PG_UNIQUE_VIOLATION } from '@src/modules/transactions/constants';
 
 @Injectable()
 export class TransactionsService {

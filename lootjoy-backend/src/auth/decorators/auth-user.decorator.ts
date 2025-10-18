@@ -1,4 +1,4 @@
-import { createParamDecorator, ExecutionContext } from "@nestjs/common";
+import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
 export const AuthUser = createParamDecorator(
   (data: keyof any | undefined, ctx: ExecutionContext) => {
@@ -8,13 +8,13 @@ export const AuthUser = createParamDecorator(
 
     if (data) {
       const value = user[data];
-      if (data === "id" && typeof value === "string") {
+      if (data === 'id' && typeof value === 'string') {
         return Number(value);
       }
       return value;
     }
 
-    if (user.id && typeof user.id === "string") {
+    if (user.id && typeof user.id === 'string') {
       user.id = Number(user.id);
     }
     return user;

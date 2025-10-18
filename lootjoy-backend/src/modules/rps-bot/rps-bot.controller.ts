@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { AuthUser } from '../../auth/decorators/auth-user.decorator';
+import { AuthUser } from '@src/auth/decorators/auth-user.decorator';
 import { RpsBotService } from './ps-bot.service';
 
 @Controller('rps-bot')

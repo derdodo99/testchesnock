@@ -1,4 +1,4 @@
-import { AmountType } from '../constants/amount-type.enum.js';
+import { AmountType } from '@src/modules/wallets/constants/amount-type.enum';
 
 export interface CreditOptions {
   userId: number;

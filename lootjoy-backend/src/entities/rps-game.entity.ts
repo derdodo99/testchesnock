@@ -1,8 +1,7 @@
 import { Entity, PrimaryKey, Property, ManyToOne, OneToMany, Collection } from '@mikro-orm/core';
-import { RpsGameStatus } from '../../common/enums';
-
 import { UserEntity } from '@src/entities/user.entity';
-import { RpsMoveEntity } from '@src/entities/rps-move.entity'; // у тебя уже есть
+import { RpsMoveEntity } from '@src/entities/rps-move.entity';
+import { RpsGameStatus } from '@root/common/enums'; // у тебя уже есть
 
 @Entity({ tableName: 'rps_games' })
 export class RpsGameEntity {

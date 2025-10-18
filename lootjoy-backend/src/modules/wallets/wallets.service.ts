@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { EntityManager, LockMode } from '@mikro-orm/postgresql';
-import { UsersService } from '../users/users.service.js';
-import { WalletsRepository } from './repository/wallets.repository.js';
-import { TransactionsService } from '../transactions/transactions.service.js';
-import { CreditOptions } from './types/credit-options.type.js';
-import { AmountType } from './constants/amount-type.enum.js';
 import { UserEntity } from '@src/entities/user.entity';
 import { WalletEntity } from '@src/entities/wallet.entity';
+import { WalletsRepository } from '@src/modules/wallets/repository/wallets.repository';
+import { TransactionsService } from '@src/modules/transactions/transactions.service';
+import { UsersService } from '@src/modules/users/users.service';
+import { AmountType } from '@src/modules/wallets/constants/amount-type.enum';
+import { CreditOptions } from '@src/modules/wallets/types/credit-options.type';
 
 @Injectable()
 export class WalletsService {
@@ -40,7 +40,7 @@ export class WalletsService {
   }
 
   async balanceByUserId(userId: number) {
-    return this.em.transactional(async (em) => {
+    return this.em.transactional(async () => {
       const user = await this.usersService.findById(userId);
       if (!user) throw new NotFoundException('user not found');
       const wallet = await this.walletRepository.findByUser(user);

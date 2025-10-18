@@ -1,5 +1,5 @@
 import { IsInt, Min, Max, IsOptional, IsString, Length, IsEnum } from 'class-validator';
-import { AMOUNT_TYPES, AmountType } from '../constants/amount-type.enum.js';
+import { AMOUNT_TYPES, AmountType } from '@src/modules/wallets/constants/amount-type.enum';
 
 export class AmountDto {
   @IsInt()

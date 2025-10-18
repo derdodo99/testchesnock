@@ -26,9 +26,7 @@ export class MigrationXXXXXXXXXXXXXX extends Migration {
       );
     `);
 
-    this.addSql(
-      `create index if not exists "spin_rolls_user_id_idx" on "spin_rolls" ("user_id");`,
-    );
+    this.addSql(`create index if not exists "spin_rolls_user_id_idx" on "spin_rolls" ("user_id");`);
     this.addSql(
       `create index if not exists "spin_rolls_created_at_idx" on "spin_rolls" ("created_at");`,
     );

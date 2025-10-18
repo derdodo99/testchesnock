@@ -1,14 +1,13 @@
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-
-import { TransactionsModule } from '../transactions/transactions.module.js';
-import { UsersModule } from '../users/users.module.js';
-import { WalletsService } from './wallets.service.js';
-import { WalletsRepository } from './repository/wallets.repository.js';
-import { WalletsController } from './wallets.controller.js';
 import { UserEntity } from '@src/entities/user.entity';
 import { WalletEntity } from '@src/entities/wallet.entity';
 import { TransactionEntity } from '@src/entities/transaction.entity';
+import { TransactionsModule } from '@src/modules/transactions/transactions.module';
+import { UsersModule } from '@src/modules/users/users.module';
+import { WalletsService } from '@src/modules/wallets/wallets.service';
+import { WalletsRepository } from '@src/modules/wallets/repository/wallets.repository';
+import { WalletsController } from '@src/modules/wallets/wallets.controller';
 
 @Module({
   imports: [

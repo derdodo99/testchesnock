@@ -1,14 +1,14 @@
-import { Controller, Get, Inject} from '@nestjs/common';
-import {HealthCheck, HealthCheckService} from '@nestjs/terminus';
-import {EntityManager} from "@mikro-orm/postgresql";
-import Redis from "ioredis";
+import { Controller, Get, Inject } from '@nestjs/common';
+import { HealthCheck, HealthCheckService } from '@nestjs/terminus';
+import { EntityManager } from '@mikro-orm/postgresql';
+import Redis from 'ioredis';
 
 @Controller('health')
 export class HealthController {
   constructor(
-      private health: HealthCheckService,
-      private readonly em: EntityManager,
-      @Inject('REDIS') private readonly redis: Redis,
+    private health: HealthCheckService,
+    private readonly em: EntityManager,
+    @Inject('REDIS') private readonly redis: Redis,
   ) {}
 
   @Get()

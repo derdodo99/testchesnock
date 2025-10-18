@@ -1,14 +1,6 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Post,
-  Body,
-  ParseIntPipe,
-  Query,
-} from '@nestjs/common';
-import { WalletsService } from './wallets.service.js';
-import { AmountDto } from './dto/amount.dto.js';
+import { Controller, Get, Param, Post, Body, ParseIntPipe } from '@nestjs/common';
+import { WalletsService } from '@src/modules/wallets/wallets.service';
+import { AmountDto } from '@src/modules/wallets/dto/amount.dto';
 
 @Controller('wallets')
 export class WalletsController {
@@ -20,10 +12,7 @@ export class WalletsController {
   }
 
   @Post(':userId/credit')
-  credit(
-    @Param('userId', ParseIntPipe) userId: number,
-    @Body() dto: AmountDto,
-  ) {
+  credit(@Param('userId', ParseIntPipe) userId: number, @Body() dto: AmountDto) {
     return this.wallets.credit({
       userId,
       amount: dto.amount,

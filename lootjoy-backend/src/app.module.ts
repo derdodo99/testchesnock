@@ -1,16 +1,16 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { RedisModule } from '../common/adapters/redis/redis.module';
-import { HealthModule } from '../common/health/health.module';
-import { UserEntity } from './entities/user.entity';
-import { WalletEntity } from './entities/wallet.entity';
-import { WalletsModule } from './modules/wallets/wallets.module';
-import { TransactionsModule } from './modules/transactions/transactions.module';
-import { UsersModule } from './modules/users/users.module';
-import { RpsModule } from './modules/rps/rps.module';
-import { DevAuthMiddleware } from '../common/middlewares/dev-auth.middleware';
-import { RpsBotModule } from './modules/rps-bot/rps-bot.module';
+import { UserEntity } from '@src/entities/user.entity';
+import { WalletEntity } from '@src/entities/wallet.entity';
+import { WalletsModule } from '@src/modules/wallets/wallets.module';
+import { RpsModule } from '@src/modules/rps/rps.module';
+import { RpsBotModule } from '@src/modules/rps-bot/rps-bot.module';
+import { TransactionsModule } from '@src/modules/transactions/transactions.module';
+import { UsersModule } from '@src/modules/users/users.module';
+import { HealthModule } from '@root/common/health/health.module';
+import { RedisModule } from '@root/common/adapters/redis/redis.module';
+import { DevAuthMiddleware } from '@root/common/middlewares/dev-auth.middleware';
 
 @Module({
   imports: [

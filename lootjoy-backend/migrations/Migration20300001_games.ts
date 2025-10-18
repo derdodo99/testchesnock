@@ -29,12 +29,8 @@ export class Migration20251004CreateRpsTables extends Migration {
           FOREIGN KEY ("winner_id") REFERENCES "users" ("id") ON UPDATE CASCADE ON DELETE SET NULL;
     `);
 
-    this.addSql(
-      `CREATE INDEX IF NOT EXISTS "rps_games_status_idx" ON "rps_games" ("status");`,
-    );
-    this.addSql(
-      `CREATE INDEX IF NOT EXISTS "rps_games_bet_idx" ON "rps_games" ("bet");`,
-    );
+    this.addSql(`CREATE INDEX IF NOT EXISTS "rps_games_status_idx" ON "rps_games" ("status");`);
+    this.addSql(`CREATE INDEX IF NOT EXISTS "rps_games_bet_idx" ON "rps_games" ("bet");`);
     this.addSql(
       `CREATE INDEX IF NOT EXISTS "rps_games_created_at_idx" ON "rps_games" ("created_at");`,
     );

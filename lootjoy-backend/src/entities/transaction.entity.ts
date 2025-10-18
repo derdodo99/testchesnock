@@ -1,7 +1,6 @@
 import { Entity, PrimaryKey, Property, ManyToOne, Index, Unique, Enum } from '@mikro-orm/core';
-
-import { AMOUNT_TYPES, AmountType } from '../modules/wallets/constants/amount-type.enum';
 import { WalletEntity } from '@src/entities/wallet.entity';
+import { AMOUNT_TYPES, AmountType } from '@src/modules/wallets/constants/amount-type.enum';
 
 @Entity({ tableName: 'transactions' })
 export class TransactionEntity {

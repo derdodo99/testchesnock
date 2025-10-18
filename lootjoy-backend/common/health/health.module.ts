@@ -5,9 +5,11 @@ import { RedisModule } from '../adapters/redis/redis.module';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 
 @Module({
-    imports: [    TerminusModule,
-        MikroOrmModule.forFeature([]), // для инъекции EntityManager
-        RedisModule,      ],
-    controllers: [HealthController],
+  imports: [
+    TerminusModule,
+    MikroOrmModule.forFeature([]), // для инъекции EntityManager
+    RedisModule,
+  ],
+  controllers: [HealthController],
 })
 export class HealthModule {}

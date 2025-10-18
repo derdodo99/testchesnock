@@ -1,7 +1,7 @@
-export type RpsSymbol = "rock" | "paper" | "scissors";
+export type RpsSymbol = 'rock' | 'paper' | 'scissors';
 export interface SpinResult {
   label: string;
-  type: "crystals" | "item";
+  type: 'crystals' | 'item';
   value?: number;
   itemId?: string;
   chance: number;

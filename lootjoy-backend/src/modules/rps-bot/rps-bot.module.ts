@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-
 import { RpsBotController } from './rps-bot.controller';
 import { RpsBotService } from './ps-bot.service';
 import { RedisModule } from '@root/common/adapters/redis/redis.module';
