@@ -11,6 +11,7 @@ import { UsersModule } from '@src/modules/users/users.module';
 import { HealthModule } from '@root/common/health/health.module';
 import { RedisModule } from '@root/common/adapters/redis/redis.module';
 import { DevAuthMiddleware } from '@root/common/middlewares/dev-auth.middleware';
+import { SpinsModule } from '@src/modules/spins/spins.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { DevAuthMiddleware } from '@root/common/middlewares/dev-auth.middleware'
     UsersModule,
     HealthModule,
     RedisModule,
+    SpinsModule,
   ],
 })
 export class AppModule {
