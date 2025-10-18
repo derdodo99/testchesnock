@@ -1,13 +1,13 @@
 import { Entity, PrimaryKey, Property, OneToOne } from '@mikro-orm/core';
-import { User } from './user.entity';
+import { UserEntity } from '@src/entities/user.entity';
 
 @Entity({ tableName: 'wallets' })
-export class Wallet {
+export class WalletEntity {
   @PrimaryKey()
   id!: number;
 
-  @OneToOne(() => User, { unique: true })
-  user!: User;
+  @OneToOne(() => UserEntity, { unique: true })
+  user!: UserEntity;
 
   @Property({ default: 0 })
   balanceCrystals!: number;

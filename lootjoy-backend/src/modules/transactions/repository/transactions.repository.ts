@@ -1,31 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
-import { Transaction } from '../../../entities/transaction.entity';
-import { Wallet } from '../../../entities/wallet.entity';
-import { AmountType } from '../../wallets/constants/amount-type.enum';
-import { CreateOptions } from '../types/create-options.type';
+import { TransactionEntity } from '@src/entities/transaction.entity';
+import { WalletEntity } from '@src/entities/wallet.entity';
+import { AmountType } from '@src/modules/wallets/constants/amount-type.enum';
+import { CreateOptions } from '@src/modules/transactions/types/create-options.type';
 
 @Injectable()
 export class TransactionsRepository {
   constructor(private readonly em: EntityManager) {}
 
-  async findById(id: number): Promise<Transaction | null> {
-    return this.em.findOne(Transaction, { id });
+  async findById(id: number): Promise<TransactionEntity | null> {
+    return this.em.findOne(TransactionEntity, { id });
   }
 
-  async findByCorrelationId(
-    correlationId: string,
-  ): Promise<Transaction | null> {
-    return this.em.findOne(Transaction, { correlationId });
+  async findByCorrelationId(correlationId: string): Promise<TransactionEntity | null> {
+    return this.em.findOne(TransactionEntity, { correlationId });
   }
 
-  async listByWallet(
-    wallet: Wallet,
-    limit = 50,
-    offset = 0,
-  ): Promise<Transaction[]> {
+  async listByWallet(wallet: WalletEntity, limit = 50, offset = 0): Promise<TransactionEntity[]> {
     return this.em.find(
-      Transaction,
+      TransactionEntity,
       { wallet },
       { orderBy: { createdAt: 'DESC' }, limit, offset },
     );
@@ -36,12 +30,12 @@ export class TransactionsRepository {
    * Здесь — только запись в журнал.
    */
   async create(
-    wallet: Wallet,
+    wallet: WalletEntity,
     amount: number,
     type: AmountType,
     options?: CreateOptions,
-  ): Promise<Transaction> {
-    const tx = this.em.create(Transaction, {
+  ): Promise<TransactionEntity> {
+    const tx = this.em.create(TransactionEntity, {
       wallet,
       amount,
       type,

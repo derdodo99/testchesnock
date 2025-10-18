@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { TransactionsRepository } from './repository/transactions.repository.js';
-import { Wallet } from '../../entities/wallet.entity.js';
 import { AmountType } from '../wallets/constants/amount-type.enum.js';
 import { TxCreateResult } from './types/tx-create-result.type.js';
 import { PG_UNIQUE_VIOLATION } from './constants/index.js';
+import { WalletEntity } from '@src/entities/wallet.entity';
 
 @Injectable()
 export class TransactionsService {
@@ -14,7 +14,7 @@ export class TransactionsService {
    * Если передан correlationId и такая транзакция уже существует — вернёт её id и флаг idempotent.
    */
   async createIdempotent(
-    wallet: Wallet,
+    wallet: WalletEntity,
     amount: number,
     type: AmountType,
     opts?: { reason?: string; correlationId?: string },
@@ -44,7 +44,7 @@ export class TransactionsService {
     }
   }
 
-  async listForWallet(wallet: Wallet, limit = 50, offset = 0) {
+  async listForWallet(wallet: WalletEntity, limit = 50, offset = 0) {
     return this.repo.listByWallet(wallet, limit, offset);
   }
 

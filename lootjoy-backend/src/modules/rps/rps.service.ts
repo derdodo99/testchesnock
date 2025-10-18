@@ -1,20 +1,20 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { EntityManager, wrap } from "@mikro-orm/core";
-import { Redis } from "ioredis";
-import { WalletsService } from "../wallets/wallets.service";
-import { User } from "../../entities/user.entity";
-import { RpsGame } from "../../entities/rps-game.entity";
-import { RpsGameStatus } from "../../../common/enums";
-import { corr, RPS_REASON } from "../../../common/constants";
-import { RpsMove } from "../../entities/rps-move.entity";
-import { RpsSymbol } from "../../../common/types";
-import { judge, sha256 } from "../../../common/utils";
+import { Inject, Injectable } from '@nestjs/common';
+import { EntityManager, wrap } from '@mikro-orm/core';
+import { Redis } from 'ioredis';
+import { WalletsService } from '@src/modules/wallets/wallets.service';
+import { corr, RPS_REASON } from '@root/common/constants';
+import { UserEntity } from '@src/entities/user.entity';
+import { RpsGameEntity } from '@src/entities/rps-game.entity';
+import { RpsGameStatus } from '@root/common/enums';
+import { RpsMoveEntity } from '@src/entities/rps-move.entity';
+import { RpsSymbol } from '@root/common/types';
+import { judge, sha256 } from '@root/common/utils';
 
 @Injectable()
 export class RpsService {
   constructor(
     private readonly em: EntityManager,
-    @Inject("REDIS") private readonly redis: Redis,
+    @Inject('REDIS') private readonly redis: Redis,
     private readonly wallets: WalletsService,
   ) {}
 
@@ -36,19 +36,19 @@ export class RpsService {
         userId,
         amount: bet,
         reason: RPS_REASON.HOLD,
-        correlationId: corr(gameId, "hold", userId),
+        correlationId: corr(gameId, 'hold', userId),
       });
       await this.wallets.debit({
         userId: opponentId,
         amount: bet,
         reason: RPS_REASON.HOLD,
-        correlationId: corr(gameId, "hold", opponentId),
+        correlationId: corr(gameId, 'hold', opponentId),
       });
 
-      const creatorRef = em.getReference(User, opponentId);
-      const opponentRef = em.getReference(User, userId);
+      const creatorRef = em.getReference(UserEntity, opponentId);
+      const opponentRef = em.getReference(UserEntity, userId);
 
-      const game = em.create(RpsGame, {
+      const game = em.create(RpsGameEntity, {
         id: gameId,
         bet,
         status: RpsGameStatus.WAITING,
@@ -59,7 +59,7 @@ export class RpsService {
       });
       await em.persistAndFlush(game);
 
-      await this.redis.set(`rps:deadline:${game.id}`, "1", "EX", 120);
+      await this.redis.set(`rps:deadline:${game.id}`, '1', 'EX', 120);
 
       return { queued: false, gameId: game.id };
     });
@@ -71,20 +71,20 @@ export class RpsService {
       await this.wallets.debit({
         userId,
         amount: bet,
-        reason: "RPS_HOLD",
+        reason: 'RPS_HOLD',
         correlationId: `rps:${gameId}:hold:u${userId}`,
       });
       await this.wallets.debit({
         userId: opponentId,
         amount: bet,
-        reason: "RPS_HOLD",
+        reason: 'RPS_HOLD',
         correlationId: `rps:${gameId}:hold:u${opponentId}`,
       });
 
-      const creatorRef = em.getReference(User, userId);
-      const opponentRef = em.getReference(User, opponentId);
+      const creatorRef = em.getReference(UserEntity, userId);
+      const opponentRef = em.getReference(UserEntity, opponentId);
 
-      const game = em.create(RpsGame, {
+      const game = em.create(RpsGameEntity, {
         id: gameId,
         bet,
         status: RpsGameStatus.WAITING,
@@ -95,20 +95,20 @@ export class RpsService {
       });
       await em.persistAndFlush(game);
 
-      await this.redis.set(`rps:deadline:${game.id}`, "1", "EX", 120);
+      await this.redis.set(`rps:deadline:${game.id}`, '1', 'EX', 120);
 
       return { gameId: game.id };
     });
   }
 
   async commit(userId: number, gameId: string, commitHash: string) {
-    const game = await this.em.findOneOrFail(RpsGame, { id: gameId });
-    const userRef = this.em.getReference(User, userId);
+    const game = await this.em.findOneOrFail(RpsGameEntity, { id: gameId });
+    const userRef = this.em.getReference(UserEntity, userId);
 
-    const exist = await this.em.findOne(RpsMove, { game, user: userRef });
+    const exist = await this.em.findOne(RpsMoveEntity, { game, user: userRef });
     if (exist?.commitHash) return { ok: true };
 
-    const move = this.em.create(RpsMove, {
+    const move = this.em.create(RpsMoveEntity, {
       id: crypto.randomUUID(),
       game,
       user: userRef,
@@ -117,7 +117,7 @@ export class RpsService {
     });
     await this.em.persistAndFlush(move);
 
-    const count = await this.em.count(RpsMove, { game });
+    const count = await this.em.count(RpsMoveEntity, { game });
     if (count >= 2 && game.status !== RpsGameStatus.PLAYING) {
       wrap(game).assign({ status: RpsGameStatus.PLAYING });
       await this.em.flush();
@@ -125,31 +125,26 @@ export class RpsService {
     return { ok: true };
   }
 
-  async reveal(
-    userId: number,
-    gameId: string,
-    symbol: RpsSymbol,
-    nonce: string,
-  ) {
+  async reveal(userId: number, gameId: string, symbol: RpsSymbol, nonce: string) {
     const game = await this.em.findOneOrFail(
-      RpsGame,
+      RpsGameEntity,
       { id: gameId },
-      { populate: ["moves"] },
+      { populate: ['moves'] },
     );
-    const userRef = this.em.getReference(User, userId);
-    const move = await this.em.findOneOrFail(RpsMove, { game, user: userRef });
+    const userRef = this.em.getReference(UserEntity, userId);
+    const move = await this.em.findOneOrFail(RpsMoveEntity, { game, user: userRef });
 
     if (move.revealedAt) return { ok: true };
 
     const check = await sha256(`${symbol}:${nonce}`);
-    if (check !== move.commitHash) throw new Error("Commit mismatch");
+    if (check !== move.commitHash) throw new Error('Commit mismatch');
 
     move.symbol = symbol;
     move.nonce = nonce;
     move.revealedAt = new Date();
     await this.em.flush();
 
-    const moves = await this.em.find(RpsMove, { game });
+    const moves = await this.em.find(RpsMoveEntity, { game });
     if (moves.every((m) => m.revealedAt)) {
       await this.settle(game, moves);
     }
@@ -158,9 +153,9 @@ export class RpsService {
 
   async state(gameId: string) {
     const game = await this.em.findOneOrFail(
-      RpsGame,
+      RpsGameEntity,
       { id: gameId },
-      { populate: ["creator", "opponent", "winner", "moves"] },
+      { populate: ['creator', 'opponent', 'winner', 'moves'] },
     );
     return {
       id: game.id,
@@ -182,7 +177,7 @@ export class RpsService {
     };
   }
 
-  private async settle(game: RpsGame, moves: RpsMove[]) {
+  private async settle(game: RpsGameEntity, moves: RpsMoveEntity[]) {
     const [a, b] = moves;
     const res = judge(a.symbol!, b.symbol!); // -1 a проиграл, 0 ничья, 1 a выиграл
 
@@ -192,13 +187,13 @@ export class RpsService {
           userId: a.user.id,
           amount: game.bet,
           reason: RPS_REASON.REFUND,
-          correlationId: corr(game.id, "refund", a.user.id),
+          correlationId: corr(game.id, 'refund', a.user.id),
         });
         await this.wallets.credit({
           userId: b.user.id,
           amount: game.bet,
           reason: RPS_REASON.REFUND,
-          correlationId: corr(game.id, "refund", b.user.id),
+          correlationId: corr(game.id, 'refund', b.user.id),
         });
       } else {
         const winnerId = res > 0 ? a.user.id : b.user.id;
@@ -208,10 +203,10 @@ export class RpsService {
           userId: winnerId,
           amount: payout,
           reason: RPS_REASON.WIN,
-          correlationId: corr(game.id, "win", winnerId),
+          correlationId: corr(game.id, 'win', winnerId),
         });
 
-        game.winner = em.getReference(User, winnerId);
+        game.winner = em.getReference(UserEntity, winnerId);
       }
 
       game.status = RpsGameStatus.FINISHED;

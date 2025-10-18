@@ -1,18 +1,18 @@
 import { Entity, PrimaryKey, Property, ManyToOne } from '@mikro-orm/core';
-import { RpsGame } from './rps-game.entity';
-import { User } from './user.entity';
-import type { RpsSymbol } from '../../common/types';
+import { RpsGameEntity } from '@src/entities/rps-game.entity';
+import { UserEntity } from '@src/entities/user.entity';
+import type { RpsSymbol } from '@root/common/types';
 
 @Entity({ tableName: 'rps_moves' })
-export class RpsMove {
+export class RpsMoveEntity {
   @PrimaryKey()
   id!: string; // uuid
 
-  @ManyToOne(() => RpsGame)
-  game!: RpsGame;
+  @ManyToOne(() => RpsGameEntity)
+  game!: RpsGameEntity;
 
-  @ManyToOne(() => User)
-  user!: User;
+  @ManyToOne(() => UserEntity)
+  user!: UserEntity;
 
   @Property()
   commitHash!: string;

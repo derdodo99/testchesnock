@@ -1,12 +1,4 @@
-import {
-  IsInt,
-  Min,
-  Max,
-  IsOptional,
-  IsString,
-  Length,
-  IsEnum,
-} from 'class-validator';
+import { IsInt, Min, Max, IsOptional, IsString, Length, IsEnum } from 'class-validator';
 import { AMOUNT_TYPES, AmountType } from '../constants/amount-type.enum.js';
 
 export class AmountDto {

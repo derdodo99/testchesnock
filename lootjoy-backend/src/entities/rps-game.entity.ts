@@ -1,17 +1,11 @@
-import {
-  Entity,
-  PrimaryKey,
-  Property,
-  ManyToOne,
-  OneToMany,
-  Collection,
-} from '@mikro-orm/core';
-import { User } from './user.entity';
+import { Entity, PrimaryKey, Property, ManyToOne, OneToMany, Collection } from '@mikro-orm/core';
 import { RpsGameStatus } from '../../common/enums';
-import { RpsMove } from './rps-move.entity'; // у тебя уже есть
+
+import { UserEntity } from '@src/entities/user.entity';
+import { RpsMoveEntity } from '@src/entities/rps-move.entity'; // у тебя уже есть
 
 @Entity({ tableName: 'rps_games' })
-export class RpsGame {
+export class RpsGameEntity {
   @PrimaryKey()
   id!: string; // uuid
 
@@ -21,11 +15,11 @@ export class RpsGame {
   @Property({ type: 'string', default: RpsGameStatus.WAITING })
   status: RpsGameStatus = RpsGameStatus.WAITING;
 
-  @ManyToOne(() => User)
-  creator!: User;
+  @ManyToOne(() => UserEntity)
+  creator!: UserEntity;
 
-  @ManyToOne(() => User, { nullable: true })
-  opponent: User | null = null;
+  @ManyToOne(() => UserEntity, { nullable: true })
+  opponent: UserEntity | null = null;
 
   @Property()
   createdAt: Date = new Date();
@@ -36,9 +30,9 @@ export class RpsGame {
   @Property({ nullable: true })
   finishedAt?: Date;
 
-  @ManyToOne(() => User, { nullable: true })
-  winner: User | null = null;
+  @ManyToOne(() => UserEntity, { nullable: true })
+  winner: UserEntity | null = null;
 
-  @OneToMany(() => RpsMove, (m) => m.game)
-  moves = new Collection<RpsMove>(this);
+  @OneToMany(() => RpsMoveEntity, (m) => m.game)
+  moves = new Collection<RpsMoveEntity>(this);
 }

@@ -6,11 +6,4 @@ export enum AmountType {
   BONUS = 'bonus',
   MANUAL = 'manual',
 }
-export const AMOUNT_TYPES = [
-  'credit',
-  'debit',
-  'buyin',
-  'payout',
-  'bonus',
-  'manual',
-] as const;
+export const AMOUNT_TYPES = ['credit', 'debit', 'buyin', 'payout', 'bonus', 'manual'] as const;

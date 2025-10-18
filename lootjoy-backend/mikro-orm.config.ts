@@ -6,12 +6,9 @@ import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import { ReflectMetadataProvider } from '@mikro-orm/core';
 
 const isTsRuntime = Utils.detectTsNode(); // ts-node/tsx => true, dist/js => false
-console.log(isTsRuntime, 'isTsRuntime');
 
 export default defineConfig({
-  metadataProvider: isTsRuntime
-    ? TsMorphMetadataProvider
-    : ReflectMetadataProvider,
+  metadataProvider: isTsRuntime ? TsMorphMetadataProvider : ReflectMetadataProvider,
 
   entitiesTs: isTsRuntime
     ? [path.resolve(process.cwd(), 'src/**/*.entity.ts')]

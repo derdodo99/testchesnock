@@ -1,7 +1,8 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, Enum, PrimaryKey, Property } from '@mikro-orm/core';
+import { CountryType } from '@src/modules/users/types';
 
 @Entity({ tableName: 'users' })
-export class User {
+export class UserEntity {
   @PrimaryKey()
   id!: number;
 
@@ -11,8 +12,8 @@ export class User {
   @Property({ nullable: true })
   username?: string;
 
-  @Property({ default: 'RU' })
-  country!: 'RU' | 'NON_RU';
+  @Enum(() => CountryType)
+  country!: CountryType;
 
   @Property({ onCreate: () => new Date() })
   createdAt?: Date = new Date();

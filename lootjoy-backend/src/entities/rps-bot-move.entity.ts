@@ -1,10 +1,10 @@
-import { Entity, PrimaryKey, Property, ManyToOne } from "@mikro-orm/core";
-import { RpsBotGame } from "./rps-bot-game.entity";
-import type { RpsSymbol } from "../../common/types";
-import { User } from "./user.entity";
+import { Entity, PrimaryKey, Property, ManyToOne } from '@mikro-orm/core';
+import { RpsBotGameEntity } from './rps-bot-game.entity';
+import type { RpsSymbol } from '../../common/types';
+import { UserEntity } from '@src/entities/user.entity';
 
-@Entity({ tableName: "rps_bot_moves" })
-export class RpsBotMove {
+@Entity({ tableName: 'rps_bot_moves' })
+export class RpsBotMoveEntity {
   @PrimaryKey() id!: string;
 
   @Property() commitHash!: string;
@@ -13,6 +13,6 @@ export class RpsBotMove {
   @Property() committedAt: Date = new Date();
   @Property({ nullable: true }) revealedAt?: Date;
 
-  @ManyToOne(() => RpsBotGame) game!: RpsBotGame;
-  @ManyToOne(() => User) user!: User;
+  @ManyToOne(() => RpsBotGameEntity) game!: RpsBotGameEntity;
+  @ManyToOne(() => UserEntity) user!: UserEntity;
 }

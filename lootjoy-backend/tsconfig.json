@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "paths": {
+      "@src/*": ["src/*"],
+      "@root/*": ["*"]
+    },
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "resolvePackageJsonExports": true,

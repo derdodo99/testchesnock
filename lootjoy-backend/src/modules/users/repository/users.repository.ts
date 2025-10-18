@@ -1,18 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
-import { User } from '../../../entities/user.entity.js';
+import { UserEntity } from '@src/entities/user.entity';
+import { CreateUserDto } from '@src/modules/users/dto/create-user.dto';
 
 @Injectable()
 export class UsersRepository {
   constructor(private readonly em: EntityManager) {}
 
-  findByTelegramId(telegramId: string): Promise<User | null> {
-    return this.em.findOne(User, { telegramId });
+  findByTelegramId(telegramId: CreateUserDto['telegramId']): Promise<UserEntity | null> {
+    return this.em.findOne(UserEntity, { telegramId });
   }
-  findById(id: number): Promise<User | null> {
-    return this.em.findOne(User, { id });
+  findById(id: number): Promise<UserEntity | null> {
+    return this.em.findOne(UserEntity, { id });
   }
-  async create(data) {
-    return this.em.create(User, data);
+  async create(data: CreateUserDto) {
+    return this.em.create(UserEntity, data);
   }
 }
