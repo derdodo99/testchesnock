@@ -6,3 +6,8 @@ export interface SpinResult {
   itemId?: string;
   chance: number;
 }
+export interface TgResponse<T> {
+  ok: boolean;
+  result: T;
+  description?: string;
+}
